@@ -1,0 +1,5 @@
+**Context Switching Approach**
+This implementation treats threads as a combination of a private stack and saved registers. The uswtch assembly routine performs the core swap by saving the stack pointer and the registers ebp, ebx, esi, and edi before loading the new thread stack and restoring its registers . A context switch is fundamentally a swap of these stacks. Each thread is allocated its own stack during the creation process. The threading system relies on cooperative scheduling, meaning threads must explicitly call thread_yield to allow other threads to run. The scheduler uses a round-robin approach to loop over the thread table and pick the next runnable thread. The mutex functions by having a thread yield its execution until the lock is released.
+
+**Limitations**
+The library is constrained to support a maximum of 8 threads. While threads share the same address space and heap, they maintain independent stacks. Additionally, the cooperative sceduling relies on successfull yieldin in user programs.
